@@ -45,6 +45,7 @@ module.exports = {
     popup: "./src/app/popup/popup.ts",
     options: "./src/app/options/options.ts",
     welcome: "./src/app/welcome/index.tsx",
+    contentScript: "./src/app/content/index.ts"
   },
 
   output: {
