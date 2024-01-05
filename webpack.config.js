@@ -44,7 +44,7 @@ module.exports = {
     serviceWorker: "./src/serviceWorker.ts",
     popup: "./src/app/popup/popup.ts",
     options: "./src/app/options/options.ts",
-    //welcome: "./src/app/router/Welcome/index.tsx",
+    welcome: "./src/app/welcome/index.tsx",
   },
 
   output: {
@@ -154,19 +154,19 @@ module.exports = {
       chunks: ["prompt"],
       hash: true,
       filename: "prompt.html",
-    }),
+    }),*/
     new HtmlWebpackPlugin({
-      template: path.join(viewsPath, "welcome.html"),
+      template: "./src/static/templates/welcome.html",
       inject: "body",
       chunks: ["welcome"],
       hash: true,
       filename: "welcome.html",
-    }),*/
+    }),
     // write css file(s) to build folder
     new MiniCssExtractPlugin({ filename: "[name].css" }), // No css subfolder has been used as this breaks path's to url's such as fonts.
     // copy static assets
     new CopyWebpackPlugin({
-      patterns: [{ from: "./src/static/", to: "assets" }],
+      patterns: [{ from: "./src/static/assets", to: "assets" }],
     }),
     new BundleAnalyzerPlugin({
       generateStatsFile: nodeEnv !== "development" ? true : false,
