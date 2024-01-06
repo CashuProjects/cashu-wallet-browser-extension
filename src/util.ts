@@ -44,8 +44,8 @@ export function cleanToken(token: Token): Token {
 	};
 }
 
-export async function encryptData(data: unknown, password: string): string {
-  const setting = getStorageItem('setting');
+export async function encryptData(data: unknown, password: string): Promise<ArrayBuffer> {
+  const setting = await getStorageItem('setting');
   return await window.crypto.subtle.encrypt(
     { name: 'AES-GCM', iv: setting.iv },
     password,
@@ -53,8 +53,8 @@ export async function encryptData(data: unknown, password: string): string {
   );
 }
 
-export async function decryptData(cipher: string, password: string) {
-  const setting = getStorageItem('setting');
+export async function decryptData(cipher: string, password: string): Promise<string> {
+  const setting = await getStorageItem('setting');
   const decrypted = await window.crypto.subtle.decrypt(
     {
       name: 'AES-GCM',
@@ -63,17 +63,32 @@ export async function decryptData(cipher: string, password: string) {
     password,
     cipher
   );
-  return JSON.parse(decrypted.toString(enc.Utf8));
+  return JSON.parse(decrypted.toString());
 }
 
-export async function verifyPassword(password: string, hash: string): boolean {
+export async function verifyPassword(password: string, hash?: string): Promise<boolean> {
+
+  if (!hash) {
+    // get hash from storage
+    const setting = await getStorageItem('setting');
+    hash = setting.hash;
+  }
   return await argon2Verify({
     password,
     hash,
   });
 }
 
-export async function updatePassword(newPassword: string, prevPassword?: string, hash?: string) {
+export async function hasSignedUp () {
+  // get hash from storage
+  const setting = await getStorageItem('setting');
+  if (setting.hash)
+    return true;
+
+  return false
+}
+
+export async function updatePassword(newPassword: string, prevPassword?: string, hash?: string): Promise<string> {
   if (prevPassword) {
     const isvalid = verifyPassword(prevPassword, hash);
     if (!isvalid) {
