@@ -1,5 +1,5 @@
 {
-  "name": "Cashu browser extension",
+  "name": "cashu-wallet-browser-extension",
   "version": "0.0.1",
   "description": "Cashu wallet for the browser",
   "private": true,
