@@ -24,7 +24,7 @@ export default function PasswordInput(
           required={true}
         />
         <button onClick={()=> {setVisible(!hidden)}}>
-          {hidden ? <HiddenIcon /> : <VisibleIcon />}
+          {hidden ? <HiddenIcon className="h-6 w-6"/> : <VisibleIcon className="h-6 w-6" />}
         </button>
       </div>
     );
